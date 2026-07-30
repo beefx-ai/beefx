@@ -1,0 +1,62 @@
+BFXPS SMART ADVISOR V8.6 - TRADER EXECUTION CONVERSATION AUDIT
+Date: 2026-07-28
+
+MUC TIEU
+- Tra loi nhu mot trader co ky luat, khong nhu chatbot keyword cung nhac.
+- Bao toan truth engine: so trong cau hoi ve entry/target/SL khong duoc tu dong viet lai OHLC.
+- Khong bia keo, khong bia stop; chi danh gia stop do nguoi dung de xuat.
+- Phan biet dung huong keo voi dung dieu kien fill/rejection/reclaim.
+
+TINH HUONG CHINH DA KIEM TRA
+1) "gia dang 1833 tao muon long qua, tao long sl 28 duoc khong"
+   - Hieu SL 28 = 1828 theo ngu canh 1833.
+   - Nhan ra LONG nguoc keo SHORT 1835 -> 1811.1.
+   - Tinh risk 5 diem, room 2 diem, R/R 0.40 va bac lenh.
+
+2) "dinh cutloss 1804 roi chan qua, len 1835 gay lai 1828 ma tao ko soc kip, tao soc ATC co dung hd cua keo ko"
+   - Khong khuyen khich go lo/duoi lenh vi tiec.
+   - Hieu duong gia ke chuyen: cham 1835 roi lui 1828.
+   - Danh gia SHORT ATC dung huong va dung trinh tu, nhung chi ladder/khong all-in.
+   - Van ton trong quyen R5 (PRE_OPEN/KEEP/CANCEL/FLIP_HINT).
+
+3) "he dang co nhung keo gi nay khop lenh ko"
+   - Doi chieu tung engine voi High/Low that.
+   - Entry chua cham thi KHONG FILL, target di qua truoc entry khong tinh thang.
+
+4) "hay toi long 1810 nhe duoc khong"
+   - Hieu 1810 la proposed entry, khong nham thanh live tick hay vi the da co.
+   - Danh gia la scalp LONG nguoc nhip, bat buoc dong truoc vung entry SHORT 1835.
+
+CAC NHOM CAU HOI TU SANG TAC THEM
+- Gia 1832.5 long duoc khong, SL 1827?
+- Dinh mua 1830 trong khi he cho short 1835 co dang khong?
+- Len 1835 roi roi 1829, short cuoi phien duoc chu?
+- Vua cat long xong, short de go co nen khong?
+- High 1834.9 chua cham 1835 thi fill chua?
+- Engine nao thuc su vao duoc lenh?
+- Short 1820 co phai ban duoi?
+- Long 1811 bat hoi duoc khong?
+- Low 1804 roi reclaim Open thi long scalp sao?
+- Vuot 1844 va dong tren do con short khong?
+- Dang long 1833 ve 1828 xu ly sao?
+- Da short 1835, gia 1828 giu hay chot?
+- ATC 1828, High 1835 co dung thu tu khong?
+- Gia 1810, target short 1811.1 da qua, con short duoc khong?
+- Bo lo short 1835, gio 1828 co duoi theo khong?
+- Ladder nao hom nay da khop?
+
+KET QUA TEST
+- trader_execution_conversation_selftest: PASS (4 case bat buoc + 16 bien the linh hoat)
+- conversation_truth_selftest: PASS
+- trader_dialogue_selftest: PASS
+- Python compile: PASS
+
+FILE THAY DOI
+- bfxps_ai/bfxps_smart_advisor.py
+- bfxps_ai/bfxps_customer_bridge.py
+- bfxps_ai/bfxps_trader_execution_conversation_selftest.py
+- RUN_BFXPS_AI_TRADER_EXECUTION_SELFTEST.bat
+- RUN_BFXPS_AI_TRADER_EXECUTION_SELFTEST.command
+
+VERSION
+BFXPS-SMART-ADVISOR-8.6-TRADER-EXECUTION-CONVERSATION-BRAIN

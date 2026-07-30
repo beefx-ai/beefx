@@ -1,0 +1,16 @@
+BFXPS SMART ADVISOR V8.35+++ - PYTHON DYNAMIC CHARTS 30D + R5
+
+1. Renderer thuần Python/Matplotlib Agg; không gọi ứng dụng tạo ảnh.
+2. Dùng đúng 3 CSDL trong outputs:
+   - BEST_ENGINE_CHART_LAST3_PLUS_FORWARD_TRADES.tsv
+   - BEST_ENGINE_CHART_LAST3_TRADES.tsv
+   - BEST_ENGINE_RECENT_TRADES.tsv
+3. Dynamic chart hỗ trợ:
+   - PnL/equity/daily PnL/drawdown/WR 30D.
+   - Forecast OHLC zoom với mọi forward plan, Entry, TP, live price.
+   - Expected Low / Center / Expected High all days theo từng engine.
+   - R5 authority và lịch sử KEEP/CANCEL; cảnh báo đỏ cho CANCEL, FLIP_HINT, PRE_OPEN/NO TRADE.
+   - Chart All trả đồng thời 4 nhóm chart.
+4. 1000 câu hỏi runtime QA: 1000 PASS, 0 FAIL, chia 5 nhóm x 200 câu.
+5. Có sẵn 24 PNG mẫu dynamic charts sinh thật từ renderer và 3 CSDL.
+6. Launcher V8.35 dùng runtime_logs ngoài outputs, tương thích RUN_ALL_WITH_AI_RESTART.bat.

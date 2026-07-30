@@ -1,0 +1,49 @@
+{
+  "status": "PASS",
+  "promoted": true,
+  "strategy": "LONG_RECLAIM_TO_WAITING_SHORT_T1_ENTRY",
+  "scope": "ADVISORY_ONLY_NOT_INDEPENDENT_ENGINE_NOT_SYMMETRIC",
+  "entry_rule": "SHORT t+1; Lower=min(previous completed Close, previous ExpectedLow); Open<=Lower; enter only after price reclaims Lower+1.0",
+  "take_profit": "waiting SHORT t+1 operational entry",
+  "stop_loss": "Lower",
+  "exit_if_neither": "ATC",
+  "reclaim_buffer_points": 1.0,
+  "max_size": 0.3,
+  "cost_assumption_points": 1.0,
+  "cost_stress_pass_through": 2.0,
+  "cost_stress_limit_note": "All three splits positive through 2 points/trade; OOS1 negative at 3 points/trade",
+  "anti_bias": "decision uses only frozen SHORT t+1, prior completed Close/ExpectedLow, current Open and live reclaim; no T High/Low/Close look-ahead",
+  "full": {
+    "trades": 82,
+    "wr_pct": 63.41,
+    "pnl_points": 238.25,
+    "max_dd_points": -6.6
+  },
+  "splits": {
+    "TRAIN_2018_2022": {
+      "trades": 46,
+      "wr_pct": 60.87,
+      "pnl_points": 138.91,
+      "max_dd_points": -6.6
+    },
+    "OOS1_2023_2024": {
+      "trades": 13,
+      "wr_pct": 69.23,
+      "pnl_points": 19.19,
+      "max_dd_points": -4.0
+    },
+    "OOS2_2025_2026": {
+      "trades": 23,
+      "wr_pct": 65.22,
+      "pnl_points": 80.15,
+      "max_dd_points": -4.6
+    }
+  },
+  "rejected_variant": {
+    "name": "LONG_AT_OPEN",
+    "trades": 359,
+    "pnl_points": -887.1,
+    "status": "REJECTED"
+  },
+  "source_note": "Metrics supplied by user from completed full-period backtest; package activates the audited rule but does not independently reproduce the absent source result files."
+}

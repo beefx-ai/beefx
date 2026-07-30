@@ -1,0 +1,14 @@
+LOCKED REGRESSION CASE
+
+Trusted completed OHLC 28/07/2026: O 1807.8 / H 1834.9 / L 1796.3 / C 1824.0.
+Conversation chain:
+1) kèo sao
+2) cả phiên bắt tao chờ 1835 cơ mà, làm gì cho short lệnh nào khớp
+3) tóm lại nay có engines nào khớp dc lệnh
+
+Expected result:
+- 1835 in turns 2-3 is a plan reference, not a market update.
+- SimCarry t+1 entry 1835.0: NO FILL, missed by 0.1.
+- Engine5 profiles entry 1844.348: NO FILL, missed by 9.448.
+- SimPTKT: no active row.
+- Low crossing target before entry creates no trade and no PnL.

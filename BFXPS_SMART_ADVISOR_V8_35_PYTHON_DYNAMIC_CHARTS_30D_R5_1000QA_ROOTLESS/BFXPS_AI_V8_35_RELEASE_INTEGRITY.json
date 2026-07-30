@@ -1,0 +1,81 @@
+{
+  "version": "V8.35+++",
+  "title": "BFXPS Smart Advisor V8.35+++ Python Dynamic Charts 30D + R5",
+  "strict_rootless": true,
+  "renderer": "Python/Matplotlib Agg only",
+  "database_integrity": [
+    {
+      "file": "outputs/BEST_ENGINE_CHART_LAST3_PLUS_FORWARD_TRADES.tsv",
+      "sha256": "d1df0b8e4e7284367a4681124bb335d572a357e87480e48f7e703ae1d1d5b491",
+      "rows": 9,
+      "columns": 20,
+      "bytes": 4436
+    },
+    {
+      "file": "outputs/BEST_ENGINE_CHART_LAST3_TRADES.tsv",
+      "sha256": "d1df0b8e4e7284367a4681124bb335d572a357e87480e48f7e703ae1d1d5b491",
+      "rows": 9,
+      "columns": 20,
+      "bytes": 4436
+    },
+    {
+      "file": "outputs/BEST_ENGINE_RECENT_TRADES.tsv",
+      "sha256": "e556e862e2bede46c3198624d12d82fadd29acf32b9d0ca5f4d3793ecc78c4d3",
+      "rows": 30,
+      "columns": 14,
+      "bytes": 8201
+    }
+  ],
+  "qa_summary": {
+    "version": "V8.35+++",
+    "total": 1000,
+    "passed": 1000,
+    "failed": 0,
+    "category_counts": {
+      "performance": {
+        "total": 200,
+        "pass": 200,
+        "fail": 0
+      },
+      "forecast": {
+        "total": 200,
+        "pass": 200,
+        "fail": 0
+      },
+      "bands": {
+        "total": 200,
+        "pass": 200,
+        "fail": 0
+      },
+      "r5": {
+        "total": 200,
+        "pass": 200,
+        "fail": 0
+      },
+      "all": {
+        "total": 200,
+        "pass": 200,
+        "fail": 0
+      }
+    },
+    "unique_dynamic_charts_generated": 24,
+    "physical_png_bank": "/outputs/dynamic_charts",
+    "databases": [
+      "BEST_ENGINE_CHART_LAST3_PLUS_FORWARD_TRADES.tsv",
+      "BEST_ENGINE_CHART_LAST3_TRADES.tsv",
+      "BEST_ENGINE_RECENT_TRADES.tsv"
+    ],
+    "python_matplotlib_only": true,
+    "qa_execution": "5 isolated runtime batches x 200 questions; merged without skipped cases"
+  },
+  "sample_dynamic_chart_count": 24,
+  "sample_dynamic_chart_total_bytes": 6258683,
+  "launchers": [
+    "RUN_BFXPS_AI_WEB.bat",
+    "RUN_BFXPS_AI_SERVER.bat",
+    "RUN_ALL_WITH_AI_RESTART.bat"
+  ],
+  "server_health_expected": {
+    "version": "V8.35"
+  }
+}

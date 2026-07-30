@@ -1,0 +1,20 @@
+BFXPS AI WEB V8.35+++ - HUONG DAN NHANH
+
+Chay web:
+  RUN_BFXPS_AI_WEB.bat
+
+Chi chay server:
+  RUN_BFXPS_AI_SERVER.bat
+
+Co du lieu moi, dung mot nut:
+  RUN_ALL_WITH_AI_RESTART.bat
+
+Cau hoi mau:
+  PnL on chart tu CSDL 30D
+  forecast len chart O 1822 H 1852 L 1814,2 P 1850
+  chart gia ky vong low/high center all days
+  R5 len chart neu cho danh hay canh bao
+  chart all: pnl, forecast, bien all, keo va R5 O 1822 H 1852 L 1814,2 P 1850
+
+Chart duoc tao bang Python/Matplotlib tu 3 file CSDL trong outputs.
+R5 CANCEL / FLIP_HINT / PRE_OPEN / NO TRADE hien canh bao do tren chart.

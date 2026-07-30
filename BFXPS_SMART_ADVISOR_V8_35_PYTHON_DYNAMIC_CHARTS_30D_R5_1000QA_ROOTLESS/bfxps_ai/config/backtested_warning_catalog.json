@@ -1,0 +1,200 @@
+{
+  "catalog_version": "BFXPS-WARNINGS-1.3-ACTIONABLE-DECISION-POLICY",
+  "policy": {
+    "critical_first": true,
+    "do_not_invent": true,
+    "require_evidence_scope": true,
+    "warning_levels": [
+      "BLOCKER",
+      "CRITICAL",
+      "HIGH",
+      "MEDIUM",
+      "NOTICE",
+      "INFO"
+    ]
+  },
+  "warnings": [
+    {
+      "id": "BAND_DIRECTION_CONTRADICTION",
+      "level": "CRITICAL",
+      "title": "Direction và expected band mâu thuẫn",
+      "condition": "LONG nhưng raw ExpectedHigh/OriginalTarget thấp hơn giá tham chiếu/OriginalEntry; hoặc SHORT nhưng raw ExpectedLow/OriginalTarget cao hơn giá tham chiếu/OriginalEntry.",
+      "evidence_scope": "V44 exact rerun 2018-01-01..2026-07-27. Raw plan test: when raw EntryRaw is touched, hold direction to session Close at 1 unit, before EntryTargetSwap. Negative in TRAIN, OOS1 and OOS2. Operational swap is reported separately and is positive; therefore warning forbids raw geometry, not every mitigated trade.",
+      "interpretation": "Hệ nói LONG/SHORT nhưng mức đỉnh/đáy kỳ vọng lại nằm sai phía so với giá tham chiếu. Không dùng cặp giá gốc để đặt lệnh; chỉ dùng cặp đã sửa và xác nhận bằng OHLC/R5.",
+      "required_response": "State whether the active plan matches the structural condition against OriginalEntry. If Open is also beyond raw ExpectedLow/High, identify it as a live manifestation and an event-time prepass. Never trade raw levels. If swap exists, use only OperationalEntry/OperationalTarget, wait for fill, and require the target to be touched after fill.",
+      "metric_reference": "Backtest V44 direction-band contradiction",
+      "evidence_metrics": {
+        "method": "Raw EntryRaw touched -> directional exit at session Close, 1.0 unit, no EntryTargetSwap. V44 exact engine rerun.",
+        "date_range": "2018-01-01..2026-07-27",
+        "full": {
+          "contradiction_rows": 1313,
+          "raw_touched_trades": 1005,
+          "raw_wins": 393,
+          "raw_losses": 608,
+          "raw_wr_pct": 39.1045,
+          "raw_pnl_points": -4061.5864,
+          "raw_avg_points_per_trade": -4.0414,
+          "raw_maxdd_points": -4297.1693,
+          "swap_operational_pnl_points": 1637.9134
+        },
+        "splits": [
+          {
+            "period": "TRAIN 2018-2022",
+            "contradiction_rows": 684,
+            "raw_touched_trades": 537,
+            "raw_wr_pct": 38.175,
+            "raw_pnl_points": -1901.2314,
+            "raw_avg_points_per_trade": -3.5405,
+            "raw_maxdd_points": -1993.6386,
+            "swap_operational_pnl_points": 718.7607
+          },
+          {
+            "period": "OOS1 2023-2024",
+            "contradiction_rows": 268,
+            "raw_touched_trades": 204,
+            "raw_wr_pct": 37.2549,
+            "raw_pnl_points": -933.5891,
+            "raw_avg_points_per_trade": -4.5764,
+            "raw_maxdd_points": -928.3565,
+            "swap_operational_pnl_points": 144.8849
+          },
+          {
+            "period": "OOS2 2025-2026",
+            "contradiction_rows": 361,
+            "raw_touched_trades": 264,
+            "raw_wr_pct": 42.4242,
+            "raw_pnl_points": -1226.7659,
+            "raw_avg_points_per_trade": -4.6468,
+            "raw_maxdd_points": -1424.9232,
+            "swap_operational_pnl_points": 774.2678
+          }
+        ],
+        "by_horizon": [
+          {
+            "horizon": "t",
+            "train_pnl": -493.2,
+            "oos1_pnl": -166.7,
+            "oos2_pnl": -301.7
+          },
+          {
+            "horizon": "t+1",
+            "train_pnl": -765.4,
+            "oos1_pnl": -285.4,
+            "oos2_pnl": -316.1
+          },
+          {
+            "horizon": "t+2",
+            "train_pnl": -642.6314,
+            "oos1_pnl": -481.4891,
+            "oos2_pnl": -608.9659
+          }
+        ]
+      },
+      "decision_policy": {
+        "action_class": "MITIGATED_PLAN_OR_CONFIRMED_BRIDGE",
+        "raw_action": "AVOID_RAW_GEOMETRY",
+        "mitigated_action": "TRADE_OPERATIONAL_IF_ENTRY_AND_FILL_VALID",
+        "countertrend_action": "ALLOW_SMALL_SCALP_ONLY_WITH_COMPLETE_OHLC_CONFIRMATION",
+        "customer_action": "Né cặp mức gốc. Nếu hệ đã swap và hiệu quả sau swap dương xuyên các cửa sổ thì được phép theo kèo đã hiệu chỉnh tại đúng entry; khi còn xa entry chỉ scalp ngược nhịp nhỏ nếu OHLC live xác nhận."
+      }
+    },
+    {
+      "id": "STALE_EXPECTED_BAND",
+      "level": "HIGH",
+      "title": "Expected band đã stale",
+      "condition": "Expected band có TargetAgeSessions từ 3 đến 5 phiên.",
+      "evidence_scope": "V49: stale-band decay tăng +87.2 điểm ở t và +125.3 điểm ở t+1; dương ở 2018-2022, 2023-2024, 2025-2026; Max DD không xấu.",
+      "interpretation": "Thông tin vùng giá còn hữu ích nhưng khoảng target tuyệt đối giảm độ tin cậy theo tuổi band.",
+      "required_response": "Nêu rõ band cũ; ưu tiên operational target đã decay, không đọc raw target như band mới.",
+      "metric_reference": "V49_STALE_BAND_DECAY",
+      "decision_policy": {
+        "action_class": "TRADE_DECAYED_TARGET",
+        "customer_action": "Không bỏ kèo chỉ vì band cũ; dùng target đã decay trong outputs, giảm kỳ vọng và không đọc raw target như band mới."
+      }
+    },
+    {
+      "id": "PTKT_ATR_FALLBACK_ACTIVE",
+      "level": "NOTICE",
+      "title": "Expected band nguồn đang thiếu, fallback PTKT-ATR được kích hoạt",
+      "condition": "TargetRule là PTKT_ATR14_PRIOR_FALLBACK hoặc metadata xác nhận fallback band.",
+      "evidence_scope": "V48: t +234.1 điểm, t+1 +201.2 điểm so với V44; dương ở TRAIN/OOS1/OOS2; DD không xấu.",
+      "interpretation": "Fallback đã qua kiểm định nhưng không được mô tả như band fallback bên ngoài thật.",
+      "required_response": "Gắn nhãn fallback source-agnostic; nêu target từ MACD prior-only + ATR14; không hạ thành cảnh báo đỏ nếu các gate khác sạch.",
+      "metric_reference": "V48_SIMCARRY_PTKT_MACD_ATR_FALLBACK",
+      "decision_policy": {
+        "action_class": "TRADE_IF_OTHER_GATES_CLEAN",
+        "customer_action": "Đây là fallback đã kiểm định, không mặc định đứng ngoài. Có thể theo kèo nếu các gate khác sạch, nhưng phải ghi rõ target là PTKT–ATR prior-only."
+      }
+    },
+    {
+      "id": "T2_BAND_CONFIDENCE_REDUCED",
+      "level": "MEDIUM",
+      "title": "Horizon t+2 đã giảm confidence/size",
+      "condition": "Horizon t+2 với TAKE_HALF_IF_FILL hoặc MaxSizeAllowed không quá 0.5.",
+      "evidence_scope": "V50: t+2 tăng +134.0 điểm; TRAIN +95.2, OOS1 +19.6, OOS2 +19.2; Max DD cải thiện 13.7 điểm.",
+      "interpretation": "Đây là kế hoạch xa hơn, đã được hệ giảm size và hiệu chỉnh target confidence.",
+      "required_response": "Không trình bày t+2 ngang confidence với t/t+1; nêu rõ half-size và điều kiện fill.",
+      "metric_reference": "V50_T2_BAND_CONFIDENCE",
+      "decision_policy": {
+        "action_class": "HALF_SIZE_ONLY",
+        "customer_action": "Kèo t+2 chỉ được dùng half-size theo outputs; không nâng ngang độ tin cậy với t hoặc t+1."
+      }
+    },
+    {
+      "id": "ENTRY_TARGET_SWAP_ACTIVE",
+      "level": "INFO",
+      "title": "Entry-target swap đang hoạt động",
+      "condition": "EntryTargetSwapApplied=True.",
+      "evidence_scope": "V48 execution decomposition: swap rows tạo PnL dương ở t, t+1 và t+2; cơ chế là một phần alpha execution đã kiểm định.",
+      "interpretation": "Raw expected band không được dùng trực tiếp; engine đã hoán đổi để tạo hình học giao dịch hợp lệ.",
+      "required_response": "Chỉ đọc OperationalEntry/OperationalTarget; giải thích raw entry/target nếu khách hỏi, không dùng raw level để đặt lệnh.",
+      "metric_reference": "V48_SIMCARRY_EXECUTION_DECOMPOSITION",
+      "decision_policy": {
+        "action_class": "USE_OPERATIONAL_LEVELS_ONLY",
+        "customer_action": "Chỉ dùng entry/target sau swap; raw levels chỉ để giải thích, không dùng đặt lệnh."
+      }
+    },
+    {
+      "id": "R5_CANCELLED_ZERO_UNITS",
+      "level": "BLOCKER",
+      "title": "R5 đã cancel, units bằng 0",
+      "condition": "R5Overlay=CANCEL hoặc Units=0.",
+      "evidence_scope": "Runtime contract; không phải giả thuyết backtest.",
+      "interpretation": "Kèo bị hủy tại Open, không có vị thế dù post-outcome giả định có thể dương.",
+      "required_response": "Nói rõ NO TRADE/PnL 0; không dùng kết quả giả định sau cancel để tư vấn vào lệnh.",
+      "metric_reference": "R5_OPEN_CONTRACT",
+      "decision_policy": {
+        "action_class": "NO_TRADE",
+        "customer_action": "NO TRADE, PnL 0. Không được lấy kết quả giả định sau cancel để tư vấn vào lệnh."
+      }
+    },
+    {
+      "id": "INTRADAY_SEQUENCE_UNCERTAIN",
+      "level": "HIGH",
+      "title": "Không xác định được thứ tự entry-target trong OHLC tổng hợp",
+      "condition": "Entry và target đều nằm trong daily/intraday range nhưng dữ liệu không chứng minh target xảy ra sau fill.",
+      "evidence_scope": "Live-integrity rule; phòng chống kết luận thắng giả từ OHLC không có thứ tự sự kiện.",
+      "interpretation": "Không được settle HIT_TARGET chỉ từ High/Low nếu target có thể xuất hiện trước entry.",
+      "required_response": "Tạm ghi FILLED_SEQUENCE_UNCERTAIN; chờ bar intraday hoặc event log.",
+      "metric_reference": "EVENT_TIME_LIVESAFE",
+      "decision_policy": {
+        "action_class": "WAIT_EVENT_ORDER",
+        "customer_action": "Không kết luận HIT_TARGET từ High/Low tổng hợp; chờ bar intraday hoặc event log xác nhận thứ tự fill rồi target."
+      }
+    },
+    {
+      "id": "OPEN_TARGET_PREPASSED_BEFORE_FILL",
+      "level": "HIGH",
+      "title": "Open đã đi qua target trước khi entry được fill",
+      "condition": "SHORT có Open <= operational target < operational entry; hoặc LONG có Open >= operational target > operational entry, trong khi entry chưa được chạm.",
+      "evidence_scope": "Live-integrity/event-time rule; đây là cảnh báo vận hành, không phải thống kê backtest.",
+      "interpretation": "Mốc target đã xuất hiện trước khi có vị thế nên không thể ghi target hit. Direction có thể vẫn đúng nhưng lợi thế mở cửa đã đi qua trước fill.",
+      "required_response": "Tại Open ghi NO TRADE/WAIT_ENTRY; không đuổi market. Nếu sau đó giá quay về entry và fill, target chỉ được công nhận khi được chạm lại sau fill với thứ tự sự kiện xác nhận được.",
+      "metric_reference": "EVENT_TIME_OPEN_PREPASS_LIVESAFE",
+      "decision_policy": {
+        "action_class": "WAIT_ENTRY_OR_CONFIRMED_COUNTERTREND_BRIDGE",
+        "customer_action": "Kèo thuận hệ đang WAIT_ENTRY, không đuổi market và không tính thắng. Chỉ xét nhịp ngược hệ nhỏ khi Open–High–Low–giá live xác nhận."
+      }
+    }
+  ]
+}

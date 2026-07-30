@@ -1,0 +1,43 @@
+{
+  "version": "V8.16",
+  "status": "PASS",
+  "promoted": true,
+  "scenario": "SHORT_RECLAIM_TO_WAITING_LONG_ENTRY",
+  "entry_rule": "LONG t+1; Upper=max(previous completed Close, previous ExpectedHigh); Open>=Upper; enter only after price falls below Upper-1.0",
+  "take_profit": "waiting LONG t+1 entry",
+  "stop_loss": "Upper",
+  "exit_if_neither": "ATC",
+  "max_size": 0.3,
+  "reclaim_buffer_points": 1.0,
+  "fee_points": 1.0,
+  "cost_stress_passed_points": 2.0,
+  "cost_stress_failed_points": 3.0,
+  "full": {
+    "trades": 144,
+    "wr_pct": 50.69,
+    "pnl_points": 233.0,
+    "max_dd_points": -11.15
+  },
+  "splits": {
+    "2018_2022": {
+      "trades": 90,
+      "wr_pct": 48.89,
+      "pnl_points": 124.76,
+      "max_dd_points": -11.15
+    },
+    "2023_2024": {
+      "trades": 24,
+      "wr_pct": 58.33,
+      "pnl_points": 30.84,
+      "max_dd_points": -7.0
+    },
+    "2025_2026": {
+      "trades": 30,
+      "wr_pct": 50.0,
+      "pnl_points": 77.4,
+      "max_dd_points": -7.5
+    }
+  },
+  "provenance": "Metrics supplied by user from separate full-period backtest; runtime package does not independently reproduce source trade files.",
+  "anti_bias": "decision uses only frozen LONG t+1, prior completed Close/ExpectedHigh, current Open and live downside reclaim; no T High/Low/Close look-ahead"
+}

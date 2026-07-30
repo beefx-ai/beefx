@@ -1,0 +1,13 @@
+{
+  "release": "V8.23",
+  "version": "V8.23",
+  "advisor_version": "BFXPS-SMART-ADVISOR-8.23-RICHVALUES-RECENT30-SSOT",
+  "database_truth": true,
+  "database_roles": {
+    "forward": "outputs/BEST_ENGINE_CHART_LAST3_PLUS_FORWARD_TRADES.tsv",
+    "last3_display": "outputs/BEST_ENGINE_CHART_LAST3_TRADES.tsv",
+    "history_30n": "outputs/BEST_ENGINE_RECENT_TRADES.tsv"
+  },
+  "daily_packaging_rule": "all_three_tsv_required",
+  "title": "RichValues Recent-30 SSOT"
+}

@@ -1,0 +1,65 @@
+{
+  "policy_version": "BFXPS-SMART-ADVISOR-7.8-NATURAL-TRADER-BRAIN",
+  "answer_order": [
+    "direct_decision",
+    "dominant_backtested_risk",
+    "intraday_trigger",
+    "operational_levels",
+    "invalidation",
+    "missing_data",
+    "evidence"
+  ],
+  "memory": {
+    "remember_focus_engine": true,
+    "remember_focus_horizon": true,
+    "remember_focus_target": true,
+    "remember_last_snapshot": true,
+    "max_turns": 30,
+    "remember_answer_style": true,
+    "latest_explicit_price_wins": true
+  },
+  "guardrails": [
+    "Không biến Độ khớp thành xác suất.",
+    "Không tự tạo stop-loss hoặc lệnh broker.",
+    "Không dùng plan stale làm kèo chính.",
+    "Không tuyên bố target hit nếu thiếu thứ tự intraday.",
+    "Không cộng chồng PnL engine/horizon thành một danh mục.",
+    "Cảnh báo cấp BLOCKER/CRITICAL/HIGH phải xuất hiện trước entry-target.",
+    "Open đã đi qua target trước fill phải trả NO TRADE/WAIT_ENTRY; không báo target hit và không đuổi market.",
+    "Giá live nêu trong câu hỏi mới phải ghi đè giá cũ từ CLI, web form hoặc memory; Open và live price không được đánh tráo.",
+    "Không phun tên cột, tên rule, raw metadata hoặc bảng backtest khi khách không hỏi bằng chứng.",
+    "Khi một câu có cả giá mở cửa và giá hiện tại, phải tách đúng hai nhãn; không lấy số cuối làm Open.",
+    "Câu đơn ưu tiên 2-3 dòng; câu nhiều vế được mở rộng tối đa 7 dòng để trả lời đủ kịch bản, lý do và điều kiện đổi ý.",
+    "Khi khách chọn hướng ngược kèo frozen, phải gọi rõ đó là giao dịch ngược nhịp do khách tự chọn; không được trình bày như tín hiệu hệ thống.",
+    "Entry của kèo đối nghịch chỉ có thể làm vùng chốt/đánh giá lại cho giao dịch ngược nhịp; không tự động đảo chiều tại đó.",
+    "Nếu thiếu giá live thì hỏi giá live; nếu cần đánh giá đuổi giá thì hỏi Open-High-Low. Không yêu cầu dữ liệu không cần thiết.",
+    "Dư địa giao dịch ngược nhịp phải được tính bằng điểm và, khi có thể, chuẩn hóa theo ATR14.",
+    "Cảnh báo backtest âm không mặc định đồng nghĩa đứng ngoài: nếu cơ chế sửa operational dương xuyên các split thì được phép theo cơ chế sửa tại đúng entry; khi còn xa entry chỉ xét kèo ngược nhịp nếu OHLC live xác nhận.",
+    "Khi đủ Open-High-Low-live, phải đưa ra hành động cụ thể: theo hệ, ngược nhịp, hay đứng ngoài; không chỉ nhắc lại cảnh báo.",
+    "Mọi mốc chốt, entry và forecast phải lấy từ outputs; mốc giảm/thoát intraday có thể dùng Open/High/Low do khách cung cấp nhưng phải ghi rõ đó là mốc phiên, không phải stop của hệ.",
+    "Không suy diễn thứ tự intraday từ High/Low tổng hợp; câu trả lời phải dùng ngôn ngữ điều kiện nếu chưa có bar/event log.",
+    "R5 là corrective overlay của kèo frozen, không phải engine độc lập và không sở hữu entry/target/PnL riêng.",
+    "PRE_OPEN/PRE_OHLCV chỉ cho phép dựng kịch bản; không được tuyên bố R5 đã KEEP, CANCEL hoặc FLIP_HINT.",
+    "R5 CANCEL hoặc Units=0 là NO TRADE; tuyệt đối không tự biến CANCEL thành kèo đảo chiều.",
+    "R5 KEEP giữ hướng frozen; scalp ngược nếu khách chủ động chỉ là bridge ngoài kèo chính, phải size nhỏ và đóng trước entry hệ.",
+    "Chỉ R5 FLIP_HINT mới mở quyền đánh giá đảo hướng theo R5; vẫn cần Open/intraday xác nhận và size giảm."
+  ],
+  "response_contract": {
+    "default_style": "adaptive_concise",
+    "default_max_lines": 3,
+    "complex_question_max_lines": 7,
+    "answer_only_what_was_asked": true,
+    "allow_compound_reasoning": true,
+    "hide_internal_fields_unless_evidence_explicitly_requested": true,
+    "latest_labeled_open_and_live_price_win": true,
+    "countertrend_plan_supported": true,
+    "request_missing_ohlc_only_when_material": true,
+    "decision_first_when_ohlc_complete": true,
+    "backtested_mitigation_can_be_actionable": true,
+    "countertrend_bridge_requires_live_confirmation": true
+  },
+  "capabilities": {
+    "r5_guided_countertrend": true,
+    "r5_preopen_scenario_only": true
+  }
+}

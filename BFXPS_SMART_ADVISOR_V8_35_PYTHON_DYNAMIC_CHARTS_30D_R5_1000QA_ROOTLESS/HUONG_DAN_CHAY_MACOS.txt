@@ -1,0 +1,94 @@
+BFXPS SMART ADVISOR V8.28 STRICT ROOTLESS DATABASE TRUTH - HUONG DAN CHAY
+================================================================================
+
+1. YEU CAU
+- macOS co Python 3.10 tro len.
+- Kiem tra:
+    python3 --version
+- Cai pandas neu may chua co:
+    python3 -m pip install pandas
+
+2. GIAI NEN / OUTPUTS
+- Giai nen ZIP vao mot thu muc bat ky hoac de vao root BFXPS.
+- Package kem san outputs/ voi DUNG 2 file:
+    outputs/BEST_ENGINE_CHART_LAST3_PLUS_FORWARD_TRADES.tsv
+    outputs/BEST_ENGINE_CHART_LAST3_TRADES.tsv
+- Khi base sinh du lieu moi, ghi de dung hai file nay.
+- Khong can data/, KH workbook hoac Nov24 workbook.
+
+3. CAP QUYEN CHAY LAN DAU
+Mo Terminal tai thu muc package:
+    chmod +x RUN_BFXPS_AI_*.command
+
+Neu macOS chan file tai tu Internet:
+    xattr -dr com.apple.quarantine .
+    chmod +x RUN_BFXPS_AI_*.command
+
+4. CHAY WEB
+    ./RUN_BFXPS_AI_WEB.command
+Mo:
+    http://127.0.0.1:8765
+
+5. CHAY CHAT TERMINAL
+    ./RUN_BFXPS_AI_CHAT.command
+
+6. CUNG CAP OHLC
+Tu nhien:
+    Mo cua 1807,8, high 1833, low 1804, hien tai 1828 thi sao?
+Viet gon:
+    O 1807,8 H 1833 L 1804 P 1828, gio lam gi?
+
+He se noi ro:
+- OHLC chua cham vung vao.
+- Da xuyen vung vao nhung chua quay lai, nen chua du dieu kien.
+- Da co rejection/reclaim ve mat gia, nhung van phai theo quyen R5.
+- Canh bao noi bo duoc dich thanh dieu kien gia cu the, khong bat nguoi dung hieu V44/ExpectedLow/TRAIN/OOS.
+
+7. TEST
+    ./RUN_BFXPS_AI_SELFTEST.command
+    ./RUN_BFXPS_AI_SEMANTIC_SELFTEST.command
+    ./RUN_BFXPS_AI_REASONING_SELFTEST.command
+    ./RUN_BFXPS_AI_TRADER_DIALOGUE_SELFTEST.command
+    ./RUN_BFXPS_AI_R5_SELFTEST.command
+    ./RUN_BFXPS_AI_CUSTOMER_RECOVERY_SELFTEST.command
+    ./RUN_BFXPS_AI_PLAIN_LANGUAGE_SELFTEST.command
+    ./RUN_BFXPS_AI_CONVERSATION_TRUTH_SELFTEST.command
+
+Dong cuoi cua tung test phai co PASS. Test moi quan trong:
+    PLAIN LANGUAGE OHLC SELFTEST PASS
+
+8. HOP DONG R5
+- PRE_OPEN: chi kich ban.
+- KEEP: giu huong frozen, khong auto-flip.
+- CANCEL/units 0: NO TRADE.
+- FLIP_HINT: ung vien dao co dieu kien, size giam.
+- OHLC dung de xac nhan gia, khong duoc lan quyen R5.
+
+9. LOI THUONG GAP
+- ModuleNotFoundError: pandas
+    python3 -m pip install pandas
+- Permission denied:
+    chmod +x RUN_BFXPS_AI_*.command
+- Web khong tu mo:
+    http://127.0.0.1:8765
+- Cong 8765 bi chiem:
+    lsof -i :8765
+
+KIEM TRA RIENG ROUTER KEO/ENGINE/KHOI LUONG
+chmod +x RUN_BFXPS_AI_STRATEGY_FOCUS_SELFTEST.command
+./RUN_BFXPS_AI_STRATEGY_FOCUS_SELFTEST.command
+
+
+KIEM TRA ROUTER VA LOI TRA RONG
+- Chay: ./RUN_BFXPS_AI_ROUTER_RECOVERY_SELFTEST.command
+- Test nay kiem tra "keo sao", SimCarry, SimPTKT, OHLC va fallback khi planner/API loi.
+
+DAN BANG OHLC
+- Có thể dán nguyên dòng: Ngày | Mở cửa | Đóng cửa | Cao nhất | Thấp nhất | KL | OI | Thay đổi.
+- Hệ chỉ đọc bốn cột giá đầu sau ngày; năm, KL và OI không được dùng làm giá.
+- So sánh fill là chính xác: High 1834,9 không chạm entry 1835,0.
+
+10. TEST CHUOI HOI DAP / GIA THAM CHIEU
+- Chay: ./RUN_BFXPS_AI_CONVERSATION_TRUTH_SELFTEST.command
+- Test khoa loi: sau khi da nap OHLC H=1834,9, cac cau "cho 1835", "entry 1835", "sao khong khop 1835" khong duoc sua High thanh 1835,0.
+- Cau "engine nao khop" se tinh lai tu OHLC tin cay va tung entry, khong tin vao trang thai hoi thoai.
